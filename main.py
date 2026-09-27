@@ -40,6 +40,12 @@ TZ              = pytz.timezone("Asia/Baghdad")
 GOOGLE_SHEET_ID = "1bestuz83Y-6o470OHF-J8dx6CxE4J9goJcj6jnOx5Ds"
 MAX_RECORDS     = 5000
 
+# --- TEMPORARY TEST OVERRIDE ---
+# None  -> production behavior, unchanged: fetch TODAY's submissions.
+# "YYYY-MM-DD" -> fetch ONLY that calendar day's submissions, for testing.
+# Set back to None when testing is finished.
+TEST_DATE       = "2026-09-26"
+
 # -----------------------------------------------
 # FIELD ID MAP
 # -----------------------------------------------
@@ -220,15 +226,30 @@ def fetch_submissions_dynamic(template_id):
     limit = 100
     now = datetime.now(TZ)
     today_str = now.strftime("%Y-%m-%d")
-    print(f"🚀 Starting Extraction Task (Today: {today_str})")
+
+    # --- TEST_DATE override (temporary) ---
+    # None keeps production behavior identical (today_str, no end bound).
+    # A "YYYY-MM-DD" value targets that single calendar day explicitly, via
+    # both an API date range and an explicit pagination check below, since
+    # submissions are ordered newest-first and a naive swap of today_str for
+    # TEST_DATE would stop pagination on the very first (today's) record
+    # before ever reaching the requested day.
+    target_date_str = TEST_DATE if TEST_DATE else today_str
+    if TEST_DATE:
+        print(f"🧪 TEST_DATE override active — fetching submissions for {target_date_str} only")
+    else:
+        print(f"🚀 Starting Extraction Task (Today: {target_date_str})")
 
     while len(all_submissions) < MAX_RECORDS:
         params = {
             "form_template_id": template_id,
             "limit": limit,
             "offset": start,
-            "date_submitted_start": today_str
+            "date_submitted_start": target_date_str
         }
+        if TEST_DATE:
+            # Full calendar day only — do not let the range drift into other days.
+            params["date_submitted_end"] = target_date_str
 
         resp = safe_api_get("https://www.zenput.com/api/v3/submissions/", params)
         if resp is None:
@@ -244,12 +265,26 @@ def fetch_submissions_dynamic(template_id):
             meta = s.get("smetadata") or {}
             date_raw = meta.get("date_submitted_local", "")
 
-            if date_raw and not date_raw.startswith(today_str):
-                print(f"⚠️ Hit old record ({date_raw[:10]}), stopping pagination early.")
-                stop_early = True
-                break
+            if TEST_DATE:
+                record_date_str = date_raw[:10] if date_raw else ""
+                if record_date_str and record_date_str > target_date_str:
+                    # Newer than the requested test date — haven't reached the
+                    # target day yet (results are newest-first). Skip, keep paginating.
+                    continue
+                if record_date_str and record_date_str < target_date_str:
+                    # Older than the requested test date — we've now passed it;
+                    # every remaining record will be older too, so stop here.
+                    print(f"⚠️ Passed TEST_DATE window ({record_date_str} < {target_date_str}), stopping pagination early.")
+                    stop_early = True
+                    break
+                all_submissions.append(s)
+            else:
+                if date_raw and not date_raw.startswith(today_str):
+                    print(f"⚠️ Hit old record ({date_raw[:10]}), stopping pagination early.")
+                    stop_early = True
+                    break
 
-            all_submissions.append(s)
+                all_submissions.append(s)
 
         if stop_early:
             break
