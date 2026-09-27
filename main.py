@@ -713,7 +713,10 @@ async def main():
         print("✅ The report was successfully generated, the spreadsheet was updated, and the email was sent!")
 
     except Exception as e:
+        import traceback
         print(f"❌ An error occurred during operation: {e}")
-
+        print("Full Traceback Details:")
+        traceback.print_exc()
+        raise e
 if __name__ == "__main__":
     asyncio.run(main())
