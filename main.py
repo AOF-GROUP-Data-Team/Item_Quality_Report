@@ -44,7 +44,7 @@ MAX_RECORDS     = 5000
 # None  -> production behavior, unchanged: fetch TODAY's submissions.
 # "YYYY-MM-DD" -> fetch ONLY that calendar day's submissions, for testing.
 # Set back to None when testing is finished.
-TEST_DATE       = "2026-09-26"
+TEST_DATE       = None
 
 # -----------------------------------------------
 # FIELD ID MAP
@@ -111,11 +111,7 @@ FID_ONION_ISSUE_PHOTO      = 16696170
 FID_ONION_ISSUE_TEXT       = 16696171
 
 # --- Mini Burger Bread ---
-# NOTE: FID_MINI_BURGER_RECEIVED ("You received fresh mini burger bread?") is a
-# receiving/logistics check, NOT a quality check. It is kept as an informational
-# column only and is deliberately excluded from process_spreadsheet_v2()'s
-# question-column detection (its DataFrame column title has no "?") so it can
-# never be counted as a quality check or affect the quality rate.
+# Receiving check only — excluded from quality calculations.
 FID_MINI_BURGER_RECEIVED   = 13148426
 FID_MINI_BURGER_MAIN_PHOTO = 13148427
 FID_MINI_BURGER_VIDEO      = 13148428
@@ -228,12 +224,9 @@ def fetch_submissions_dynamic(template_id):
     today_str = now.strftime("%Y-%m-%d")
 
     # --- TEST_DATE override (temporary) ---
-    # None keeps production behavior identical (today_str, no end bound).
-    # A "YYYY-MM-DD" value targets that single calendar day explicitly, via
-    # both an API date range and an explicit pagination check below, since
-    # submissions are ordered newest-first and a naive swap of today_str for
-    # TEST_DATE would stop pagination on the very first (today's) record
-    # before ever reaching the requested day.
+    # Passing None fetches today's data (production default).
+    # Passing 'YYYY-MM-DD' targets a specific day. Since API records are 
+    # sorted newest-first, pagination checks ensure we reach the target date.
     target_date_str = TEST_DATE if TEST_DATE else today_str
     if TEST_DATE:
         print(f"🧪 TEST_DATE override active — fetching submissions for {target_date_str} only")
