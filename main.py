@@ -42,7 +42,7 @@ MAX_RECORDS     = 5000
 
 # --- TEMPORARY TEST OVERRIDE ---
 # None  -> production behavior, unchanged: fetch TODAY's submissions.
-# "YYYY-MM-DD" -> fetch ONLY that calendar day's submissions, for testing.
+# "YYYY-MM-DD" 
 # Set back to None when testing is finished.
 TEST_DATE       = None
 
