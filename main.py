@@ -31,8 +31,8 @@ GOOGLE_JSON_STR = os.environ.get('GOOGLE_CREDENTIALS')
 
 # SENDER_EMAIL 
 SENDER_EMAIL    = "aof.group.auto@gmail.com"
-RECIPIENTS_TO   = []
-RECIPIENTS_CC   = ["m.hejazi@aofgroup.com"]
+RECIPIENTS_TO   = ["m.hejazi@aofgroup.com", "o.salahaddin@aofgroup.com"]
+RECIPIENTS_CC   = ["a.alsalem@aofgroup.com"]
 
 # Project Settings
 TEMPLATE_ID     = 659312
