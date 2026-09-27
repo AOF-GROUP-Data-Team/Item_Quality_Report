@@ -68,6 +68,55 @@ FID_TARABESH_QUALITY_PHOTO = 11707962
 FID_TARABESH_SIZE          = 11707963
 FID_TARABESH_SIZE_PHOTO    = 11707964
 
+# --- Pickles ---
+FID_PICKLES_MAIN_PHOTO     = 11183507
+FID_PICKLES_QUALITY        = 11183508
+FID_PICKLES_ISSUE_PHOTO    = 11183509
+FID_PICKLES_ISSUE_TEXT     = 11183510
+
+# --- Juices ---
+FID_JUICES_MAIN_PHOTO      = 11183512
+FID_JUICES_QUALITY         = 11183513
+FID_JUICES_ISSUE_PHOTO     = 11183514
+FID_JUICES_ISSUE_TEXT      = 11183515
+
+# --- Lettuce ---
+FID_LETTUCE_MAIN_PHOTO     = 16696155
+FID_LETTUCE_QUALITY        = 16696156
+FID_LETTUCE_ISSUE_PHOTO    = 16696157
+FID_LETTUCE_ISSUE_TEXT     = 16696158
+
+# --- Coriander ---
+FID_CORIANDER_MAIN_PHOTO   = 16696159
+FID_CORIANDER_QUALITY      = 16696160
+FID_CORIANDER_ISSUE_PHOTO  = 16696161
+FID_CORIANDER_ISSUE_TEXT   = 16696162
+
+# --- Taboleh ---
+FID_TABOLEH_MAIN_PHOTO     = 16696163
+FID_TABOLEH_QUALITY        = 16696164
+FID_TABOLEH_ISSUE_PHOTO    = 16696165
+FID_TABOLEH_ISSUE_TEXT     = 16696166
+
+# --- Onion ---
+FID_ONION_MAIN_PHOTO       = 16696168
+FID_ONION_QUALITY          = 16696169
+FID_ONION_ISSUE_PHOTO      = 16696170
+FID_ONION_ISSUE_TEXT       = 16696171
+
+# --- Mini Burger Bread ---
+# NOTE: FID_MINI_BURGER_RECEIVED ("You received fresh mini burger bread?") is a
+# receiving/logistics check, NOT a quality check. It is kept as an informational
+# column only and is deliberately excluded from process_spreadsheet_v2()'s
+# question-column detection (its DataFrame column title has no "?") so it can
+# never be counted as a quality check or affect the quality rate.
+FID_MINI_BURGER_RECEIVED   = 13148426
+FID_MINI_BURGER_MAIN_PHOTO = 13148427
+FID_MINI_BURGER_VIDEO      = 13148428
+FID_MINI_BURGER_QUALITY    = 13148429
+FID_MINI_BURGER_ISSUE_PHOTO = 13148436
+FID_MINI_BURGER_ISSUE_TEXT  = 13148437
+
 # ---------------- HELPERS ----------------
 def zenput_headers():
     return {
@@ -287,6 +336,53 @@ def process_quality_bread_submissions_to_df(submissions):
                 "Size of bread good? as our stander19":  parse_zenput_value(get_value(ans_by_id, FID_ARABI_SIZE)),
                 "Photo20":                               get_photo_link(ans_by_id, FID_ARABI_SIZE_PHOTO),
                 "Photo Notes21":                         get_photo_notes(ans_by_id, FID_ARABI_SIZE_PHOTO),
+
+                # --- Pickles ---
+                "Take picture to pickles":     get_photo_link(ans_by_id, FID_PICKLES_MAIN_PHOTO),
+                "Quality of pickles good?":    parse_zenput_value(get_value(ans_by_id, FID_PICKLES_QUALITY)),
+                "Photo22":                     get_photo_link(ans_by_id, FID_PICKLES_ISSUE_PHOTO),
+                "Write the issue23":           parse_zenput_value(get_value(ans_by_id, FID_PICKLES_ISSUE_TEXT)),
+
+                # --- Lettuce ---
+                "Take picture to lettuce":     get_photo_link(ans_by_id, FID_LETTUCE_MAIN_PHOTO),
+                "Quality of lettuce good?":    parse_zenput_value(get_value(ans_by_id, FID_LETTUCE_QUALITY)),
+                "Photo24":                     get_photo_link(ans_by_id, FID_LETTUCE_ISSUE_PHOTO),
+                "Write the issue25":           parse_zenput_value(get_value(ans_by_id, FID_LETTUCE_ISSUE_TEXT)),
+
+                # --- Coriander ---
+                "Take picture to coriander":   get_photo_link(ans_by_id, FID_CORIANDER_MAIN_PHOTO),
+                "Quality of coriander good?":  parse_zenput_value(get_value(ans_by_id, FID_CORIANDER_QUALITY)),
+                "Photo26":                     get_photo_link(ans_by_id, FID_CORIANDER_ISSUE_PHOTO),
+                "Write the issue27":           parse_zenput_value(get_value(ans_by_id, FID_CORIANDER_ISSUE_TEXT)),
+
+                # --- Taboleh ---
+                "Take picture to taboleh":     get_photo_link(ans_by_id, FID_TABOLEH_MAIN_PHOTO),
+                "Quality of taboleh good?":    parse_zenput_value(get_value(ans_by_id, FID_TABOLEH_QUALITY)),
+                "Photo28":                     get_photo_link(ans_by_id, FID_TABOLEH_ISSUE_PHOTO),
+                "Write the issue29":           parse_zenput_value(get_value(ans_by_id, FID_TABOLEH_ISSUE_TEXT)),
+
+                # --- Onion ---
+                "Take picture to onion":       get_photo_link(ans_by_id, FID_ONION_MAIN_PHOTO),
+                "Quality of onion good?":      parse_zenput_value(get_value(ans_by_id, FID_ONION_QUALITY)),
+                "Photo30":                     get_photo_link(ans_by_id, FID_ONION_ISSUE_PHOTO),
+                "Write the issue31":           parse_zenput_value(get_value(ans_by_id, FID_ONION_ISSUE_TEXT)),
+
+                # --- Juices ---
+                "Take picture for the juices": get_photo_link(ans_by_id, FID_JUICES_MAIN_PHOTO),
+                "Quality of juices good?":     parse_zenput_value(get_value(ans_by_id, FID_JUICES_QUALITY)),
+                "Photo32":                     get_photo_link(ans_by_id, FID_JUICES_ISSUE_PHOTO),
+                "Write the issue33":           parse_zenput_value(get_value(ans_by_id, FID_JUICES_ISSUE_TEXT)),
+
+                # --- Mini Burger Bread ---
+                # "Mini Burger Bread Received" is informational only (receiving/logistics
+                # check) — its title deliberately has no "?" so it is never picked up as a
+                # quality-check question column by process_spreadsheet_v2().
+                "Mini Burger Bread Received":                        parse_zenput_value(get_value(ans_by_id, FID_MINI_BURGER_RECEIVED)),
+                "Take picture to quality of mini burger fresh":      get_photo_link(ans_by_id, FID_MINI_BURGER_MAIN_PHOTO),
+                "Take video to quality of bread (color - quality )": get_photo_link(ans_by_id, FID_MINI_BURGER_VIDEO),
+                "Is the Quality of fresh mini burger good?":         parse_zenput_value(get_value(ans_by_id, FID_MINI_BURGER_QUALITY)),
+                "Photo34":                                           get_photo_link(ans_by_id, FID_MINI_BURGER_ISSUE_PHOTO),
+                "Explain the issue35":                               parse_zenput_value(get_value(ans_by_id, FID_MINI_BURGER_ISSUE_TEXT)),
 
                 # --- Meta Data ---
                 "Project": (
@@ -512,9 +608,28 @@ def process_spreadsheet_v2(df):
     col_list = list(df.columns)
     question_cols = [col for col in col_list if '?' in str(col)]
 
+    # --- New products: explicit question-column -> product mapping. ---
+    # The old (i // 3) % num_products trick only works because the 3 old products
+    # each have exactly 3 questions in a fixed cycle. New products don't follow
+    # that pattern, so they're mapped explicitly by column name instead, and are
+    # excluded from the old positional loop below so it stays exactly as it was.
+    NEW_PRODUCT_QUESTION_COLS = {
+        "Quality of pickles good?":                   "Pickles",
+        "Quality of lettuce good?":                   "Lettuce",
+        "Quality of coriander good?":                 "Coriander",
+        "Quality of taboleh good?":                   "Taboleh",
+        "Quality of onion good?":                     "Onion",
+        "Quality of juices good?":                    "Juices",
+        "Is the Quality of fresh mini burger good?":  "Mini Burger Bread",
+    }
+    old_question_cols = [c for c in question_cols if c not in NEW_PRODUCT_QUESTION_COLS]
+    new_question_cols = [c for c in question_cols if c in NEW_PRODUCT_QUESTION_COLS]
+
     for row_index, row in df.iterrows():
         branch = row['Submitted By']
-        for i, q_col_name in enumerate(question_cols):
+
+        # --- Existing old-product logic — UNCHANGED ---
+        for i, q_col_name in enumerate(old_question_cols):
             product_index = (i // 3) % num_products
             product = product_groups[product_index]
             metric = get_metric_from_question(q_col_name)
@@ -539,6 +654,33 @@ def process_spreadsheet_v2(df):
                     'problem': problem_description, 'notes': str(notes) if pd.notna(notes) else '',
                     'photo_urls': photo_urls
                 })
+
+        # --- New products: same downstream logic, explicit product mapping ---
+        for q_col_name in new_question_cols:
+            product = NEW_PRODUCT_QUESTION_COLS[q_col_name]
+            metric = get_metric_from_question(q_col_name)
+            answer = row.get(q_col_name)
+            if pd.isna(answer): continue
+            answer_str = str(answer).strip().lower()
+            is_issue = (answer_str != 'yes')
+            all_checks.append({'product': product, 'metric': metric, 'is_issue': is_issue})
+
+            if is_issue:
+                q_col_idx = col_list.index(q_col_name)
+                photo_col_idx = q_col_idx + 1
+                notes_col_idx = q_col_idx + 2
+                photo_urls_raw = row.get(col_list[photo_col_idx], '') if photo_col_idx < len(col_list) else ''
+                notes = row.get(col_list[notes_col_idx], '') if notes_col_idx < len(col_list) else ''
+                photo_urls = re.findall(r'https?://[^\s"]+', str(photo_urls_raw))
+
+                if not photo_urls: continue
+                problem_description = str(answer) if answer_str != 'no' else f"{metric} غير جيد"
+                issues.append({
+                    'branch': branch, 'product': product, 'metric': metric,
+                    'problem': problem_description, 'notes': str(notes) if pd.notna(notes) else '',
+                    'photo_urls': photo_urls
+                })
+
     return all_checks, issues
 
 # --- Email Function ---
