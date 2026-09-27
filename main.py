@@ -585,7 +585,7 @@ html_template = """
 
 # --- Helper Functions (Dashboard Logic) ---
 
-def is_black_image(image_bytes, threshold=125):
+def is_black_image(image_bytes, threshold=80):
     """Returns True if the image is mostly black (average brightness < threshold)."""
     try:
         img = Image.open(io.BytesIO(image_bytes)).convert("L")
