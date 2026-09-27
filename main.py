@@ -30,7 +30,7 @@ APP_PASSWORD    = os.environ.get('GMAIL_APP_PASSWORD')
 GOOGLE_JSON_STR = os.environ.get('GOOGLE_CREDENTIALS') 
 
 # SENDER_EMAIL 
-SENDER_EMAIL    = "mohamed.hegazy010091@gmail.com"
+SENDER_EMAIL    = "aof.group.auto@gmail.com"
 RECIPIENTS_TO   = ["Mohamed.hegazy8555@gmail.com"]
 RECIPIENTS_CC   = ["m.hejazi@aofgroup.com"]
 
