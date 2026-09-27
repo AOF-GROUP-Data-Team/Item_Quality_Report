@@ -859,7 +859,7 @@ async def main():
         with open('report.html', 'w', encoding='utf-8') as f: f.write(final_html)
         print("📡 جاري تحويل HTML إلى PDF...")
         current_date = datetime.now(TZ).strftime("%Y-%m-%d")
-        pdf_name = f'Bread_Quality_Report_{current_date}.pdf'
+        pdf_name = f'Item_Quality_Report_{current_date}.pdf'
         
         async with async_playwright() as p:
             browser = await p.chromium.launch(args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"])
