@@ -649,13 +649,13 @@ def process_spreadsheet_v2(df):
     # that pattern, so they're mapped explicitly by column name instead, and are
     # excluded from the old positional loop below so it stays exactly as it was.
     NEW_PRODUCT_QUESTION_COLS = {
-        "Quality of pickles good?":                   "Pickles",
-        "Quality of lettuce good?":                   "Lettuce",
-        "Quality of coriander good?":                 "Coriander",
-        "Quality of taboleh good?":                   "Taboleh",
-        "Quality of onion good?":                     "Onion",
-        "Quality of juices good?":                    "Juices",
-        "Is the Quality of fresh mini burger good?":  "Mini Burger Bread",
+        "Quality of pickles good?":                   "مخللات",
+        "Quality of lettuce good?":                   "خس",
+        "Quality of coriander good?":                 "كزبرة",
+        "Quality of taboleh good?":                   "تبولة",
+        "Quality of onion good?":                     "بصل",
+        "Quality of juices good?":                    "عصائر",
+        "Is the Quality of fresh mini burger good?":  "خبز ميني برجر",
     }
     old_question_cols = [c for c in question_cols if c not in NEW_PRODUCT_QUESTION_COLS]
     new_question_cols = [c for c in question_cols if c in NEW_PRODUCT_QUESTION_COLS]
